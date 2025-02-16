@@ -51,3 +51,16 @@ resource "aws_dynamodb_table" "terraform_locks" {
       type = "S"
     }
 }
+
+terraform {
+  backend "s3" {
+    bucket = "slimes-bucket"
+    key            = "global/s3/terraform.tfstate"
+    region         = "us-east-2"
+
+    # Replace this with your DynamoDB table name!
+    dynamodb_table = "terraform-up-and-running-locks"
+    encrypt        = true
+    
+  }
+}
