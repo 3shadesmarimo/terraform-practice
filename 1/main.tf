@@ -7,9 +7,9 @@ resource "aws_s3_bucket" "terraform_state" {
   bucket = "slimes-bucket"
 
   #Prevent accidental deletion of this S3 bucket
-  lifecycle {
-    prevent_destroy = true
-  }
+    lifecycle {
+        prevent_destroy = false
+    }
 }
 
 resource "aws_s3_bucket_versioning" "enabled" {
@@ -52,15 +52,3 @@ resource "aws_dynamodb_table" "terraform_locks" {
     }
 }
 
-terraform {
-  backend "s3" {
-    bucket = "slimes-bucket"
-    key            = "global/s3/terraform.tfstate"
-    region         = "us-east-2"
-
-    # Replace this with your DynamoDB table name!
-    dynamodb_table = "terraform-up-and-running-locks"
-    encrypt        = true
-    
-  }
-}
